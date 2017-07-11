@@ -6,6 +6,9 @@ class ControlController {
     this.$timeout = $timeout;
     this.Domains = Domains;
 
+    // hardcoded list of shown topics
+    this.DomainsToShow = ['app', 'manual_control', 'model_car', 'odom', 'usb_cam', 'scan'];
+
     this.isConnected = isConnected;
     this.setting = Settings.get();
     this.maxConsoleEntries = 200;
@@ -35,6 +38,13 @@ class ControlController {
       this.setActiveDomain(domains[0]);
     }
     return domains;
+  }
+
+  isDomainToShow(domain) {
+    if (this.setting.advanced) {
+      return true;
+    }
+    return this.DomainsToShow.includes(domain);
   }
 
   hasFilteredDomains(advanced) {

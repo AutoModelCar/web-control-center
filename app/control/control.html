@@ -2,7 +2,7 @@
   <!-- No connection alert -->
   <div class="alert alert-danger col-sm-6 col-sm-offset-3" role="alert" ng-if="!$ctrl.isConnected">
     <p class="lead"><i class="glyphicon glyphicon-warning-sign"></i> Whoops...</p>
-    The ROS Control Center is <b>not connected</b> to a robot running rosbridge_suite at {{ $ctrl.setting.address }}:{{ $ctrl.setting.port }}. You can change the URL in the <i>Settings</i> tab, further information can be found in the <a href="https://github.com/pantor/ros-control-center">GitHub Repository</a>.
+    The ROS Control Center is <b>not connected</b> to a robot running rosbridge_suite at {{ $ctrl.setting.address }}:{{ $ctrl.setting.port }}. You can change the URL in the <a href="#!/settings"><i>Settings</i></a> tab.
   </div>
 
   <div class="alert alert-info col-sm-6 col-sm-offset-3" ng-if="$ctrl.isConnected && !$ctrl.hasFilteredDomains($ctrl.setting.advanced)">
@@ -19,7 +19,7 @@
         <!-- Sidebar menu -->
         <div class="col-sm-3">
           <!-- Domains -->
-          <div class="panel panel-default panel-domain" ng-class="{ 'panel-active': $ctrl.activeDomain == domain }" ng-repeat="domain in $ctrl.getDomains()" ng-if="$ctrl.Domains.filterAdvanced(domain, $ctrl.setting.advanced)" ng-click="$ctrl.setActiveDomain(domain)">
+          <div class="panel panel-default panel-domain" ng-class="{ 'panel-active': $ctrl.activeDomain == domain }" ng-repeat="domain in $ctrl.getDomains()" ng-if="$ctrl.Domains.filterAdvanced(domain, $ctrl.setting.advanced) && $ctrl.isDomainToShow(domain)" ng-click="$ctrl.setActiveDomain(domain)">
             <div class="panel-heading">
               <h3 class="panel-title">{{ domain }}</h3>
             </div>
@@ -30,7 +30,7 @@
         </div>
 
         <div class="col-sm-9">
-          <div ng-repeat="domain in $ctrl.getDomains()" ng-show="$ctrl.activeDomain == domain">
+          <div ng-repeat="domain in $ctrl.getDomains()" ng-show="$ctrl.activeDomain == domain" ng-if="$ctrl.isDomainToShow(domain)" >
             <p class="lead" style="font-size: 28px;">{{ domain }}</p>
 
             <!-- Topics -->

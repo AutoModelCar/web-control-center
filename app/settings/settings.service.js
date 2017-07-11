@@ -13,7 +13,8 @@ class SettingsService {
 
     // If there are no saved settings, redirect to /settings for first setting input
     if (!this.setting) {
-      this.$location.path('/settings').replace();
+      this.setting = this.getDefaultSetting();
+      // this.$location.path('/settings').replace();
     }
   }
 
