@@ -17,6 +17,7 @@ class TopicController {
 
     const path = 'app/topics/';
     this.fileName = `${path}default.html`;
+    this.isDefault = true;
 
     // Check if file exists
     this.$scope.$watch('topic.type', () => {
@@ -27,6 +28,7 @@ class TopicController {
       this.$http.get(fileName).then((result) => {
         if (result.data) {
           this.fileName = fileName;
+          this.isDefault = false;
         }
       });
     });
@@ -36,6 +38,9 @@ class TopicController {
     if (!data) {
       this.roslibTopic.subscribe((message) => {
         this.message = message;
+        if (this.isDefault) {
+          this.message = angular.toJson(message);
+        }
       });
     } else {
       this.roslibTopic.unsubscribe();

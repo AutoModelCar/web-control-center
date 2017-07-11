@@ -1,15 +1,15 @@
 {
-  "name": "ros-control-center",
+  "name": "web-control-center",
   "version": "0.5.0",
   "description": "A universal web-based control center for ROS robots.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pantor/ros-control-center.git"
+    "url": "git+https://github.com/AutoModelCar/web-control-center.git"
   },
-  "author": "Lars Berscheid",
+  "author": "Daniel Neumann",
   "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/pantor/ros-control-center/issues"
+    "url": "https://github.com/AutoModelCar/web-control-center/issues"
   },
   "dependencies": {
     "angular": "^1.6.4",
@@ -36,6 +36,7 @@
     "gulp-eslint": "^3.0.1"
   },
   "scripts": {
-    "start": "echo '!!!REMIND TO RUN BEFORE!!!:\n\troslaunch rosbridge_server rosbridge_websocket.launch\n\trosrun web_video_server web_video_server\n'; ./node_modules/http-server/bin/http-server -p 8888"
+    "start": "echo '!!!REMIND TO RUN BEFORE!!!:\n\troslaunch rosbridge_server rosbridge_websocket.launch\n\trosrun web_video_server web_video_server\n'; ./node_modules/http-server/bin/http-server -p 8888",
+    "compile": "node ./node_modules/gulp/bin/gulp.js"
   }
 }
