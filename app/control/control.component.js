@@ -2,7 +2,8 @@ let ros;
 let isConnected = false;
 
 class ControlController {
-  constructor($timeout, $interval, Settings, Domains) {
+  constructor($timeout, $interval, $http, Settings, Domains) {
+    this.$http = $http;
     this.$timeout = $timeout;
     this.Domains = Domains;
 
@@ -186,6 +187,19 @@ class ControlController {
         this.data.nodes.push({ name });
       });
     });
+  }
+
+  runBash() {
+    const postConfig = {
+      url: '/api/killros',
+      method: 'POST',
+      data: 'killros',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+    };
+    this.$http.post(postConfig.url, postConfig.data, postConfig.headers);
+    // .success((data) => {
+    //  angular.log.info(data);
+    // });
   }
 }
 

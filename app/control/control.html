@@ -16,8 +16,40 @@
   <div class="row" ng-if="$ctrl.isConnected && $ctrl.hasFilteredDomains($ctrl.setting.advanced)">
     <div class="cols-xs-12 col-sm-8">
       <div class="row">
+      
+        <!-- Modes -->
+        <div class="col-sm-1">
+          <h3>Modes</h3>
+        </div>
+        <div class="col-sm-2">
+          <div class="panel panel-primary panel-domain">
+            <div class="panel-heading">
+              <h3 class="panel-title">Random Movement</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="panel panel-primary panel-domain">
+            <div class="panel-heading">
+              <h3 class="panel-title">Manual Control</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="panel panel-danger panel-domain" ng-click="$ctrl.runBash()">
+            <div class="panel-heading">
+              <h3 class="panel-title"><strong>!!! Kill ROS !!!</strong></h3>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+      <!-- Topics -->
+      <div class="row" style="margin-top:2em;">
         <!-- Sidebar menu -->
         <div class="col-sm-3">
+          <h3>Topics</h3>
           <!-- Domains -->
           <div class="panel panel-default panel-domain" ng-class="{ 'panel-active': $ctrl.activeDomain == domain }" ng-repeat="domain in $ctrl.getDomains()" ng-if="$ctrl.Domains.filterAdvanced(domain, $ctrl.setting.advanced) && $ctrl.isDomainToShow(domain)" ng-click="$ctrl.setActiveDomain(domain)">
             <div class="panel-heading">

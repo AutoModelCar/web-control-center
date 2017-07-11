@@ -18,7 +18,7 @@
     "angular-ui-bootstrap": "2.5.0",
     "bootstrap": "3.3.7",
     "eventemitter2": "4.1.0",
-    "http-server": "0.10.0",
+    "express": "4.15.3",
     "underscore": "1.8.3"
   },
   "devDependencies": {
@@ -36,7 +36,7 @@
     "gulp-eslint": "3.0.1"
   },
   "scripts": {
-    "start": "echo '!!!REMIND TO RUN BEFORE!!!:\n\troslaunch rosbridge_server rosbridge_websocket.launch\n\trosrun web_video_server web_video_server\n'; ./node_modules/http-server/bin/http-server -p 8888",
+    "start": "echo '!!!REMIND TO RUN BEFORE!!!:\n\troslaunch rosbridge_server rosbridge_websocket.launch\n\trosrun web_video_server web_video_server\n'; node server.js",
     "compile": "node ./node_modules/gulp/bin/gulp.js"
   }
 }
