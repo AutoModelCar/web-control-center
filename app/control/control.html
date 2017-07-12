@@ -1,11 +1,11 @@
 <div class="container-fluid">
   <!-- No connection alert -->
-  <div class="alert alert-danger col-sm-6 col-sm-offset-3" role="alert" ng-if="!$ctrl.isConnected">
+  <div class="alert alert-danger col-sm-7 col-sm-offset-3" role="alert" ng-if="!$ctrl.isConnected">
     <p class="lead"><i class="glyphicon glyphicon-warning-sign"></i> Whoops...</p>
     The ROS Control Center is <b>not connected</b> to a robot running rosbridge_suite at {{ $ctrl.setting.address }}:{{ $ctrl.setting.port }}. You can change the URL in the <a href="#!/settings"><i>Settings</i></a> tab.
   </div>
 
-  <div class="alert alert-info col-sm-6 col-sm-offset-3" ng-if="$ctrl.isConnected && !$ctrl.hasFilteredDomains($ctrl.setting.advanced)">
+  <div class="alert alert-info col-sm-7 col-sm-offset-3" ng-if="$ctrl.isConnected && !$ctrl.hasFilteredDomains($ctrl.setting.advanced)">
     <p class="lead"><i class="glyphicon glyphicon glyphicon-th-list"></i> Loading or nothing to show...</p>
     In default mode, ROS Control Center does not show default nodes / parameters / services and topics. You can show every item by using the advanced view setting, either in the seperate settings tab or here:
     <center style="margin-top: 10px;">
@@ -21,32 +21,48 @@
         <div class="col-sm-1">
           <h3>Modes</h3>
         </div>
-        <div class="col-sm-2">
-          <div class="panel panel-primary panel-domain">
-            <div class="panel-heading">
-              <h3 class="panel-title">Random Movement</h3>
-            </div>
-          </div>
-        </div>
-        <div class="col-sm-2">
-          <div class="panel panel-primary panel-domain">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-3">
+          <div class="panel panel-info" 
+               ng-class="{ 'panel-active': $ctrl.activeMode == 'manualcontrol', 'panel-domain': !$ctrl.otherModeActive() }" 
+               ng-disabled="$ctrl.otherModeActive()"
+               ng-click="$ctrl.otherModeActive() || $ctrl.sendToApi('manualcontrol')">
             <div class="panel-heading">
               <h3 class="panel-title">Manual Control</h3>
             </div>
           </div>
         </div>
-        <div class="col-sm-2">
-          <div class="panel panel-danger panel-domain" ng-click="$ctrl.runBash()">
+        <div class="col-sm-1" ng-if="$ctrl.activeMode == 'manualcontrol'">
+          <button type="button" class="btn btn-danger" 
+                  ng-click="$ctrl.sendToApi('stop')">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-3">
+          <div class="panel panel-info" 
+               ng-class="{ 'panel-active': $ctrl.activeMode == 'randommovement', 'panel-domain': !$ctrl.otherModeActive() }" 
+               ng-disabled="$ctrl.otherModeActive()"
+               ng-click="$ctrl.otherModeActive() || $ctrl.sendToApi('randommovement')">
             <div class="panel-heading">
-              <h3 class="panel-title"><strong>!!! Kill ROS !!!</strong></h3>
+              <h3 class="panel-title">Random Movement</h3>
             </div>
           </div>
         </div>
-        
+        <div class="col-sm-1" ng-if="$ctrl.activeMode == 'randommovement'">
+          <button type="button" class="btn btn-danger" 
+                  ng-click="$ctrl.sendToApi('stop')">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+        </div>
       </div>
       
       <!-- Topics -->
-      <div class="row" style="margin-top:2em;">
+      <div class="row" >
         <!-- Sidebar menu -->
         <div class="col-sm-3">
           <h3>Topics</h3>
@@ -78,7 +94,7 @@
       </div>
     </div>
 
-    <div class="col-sm-4 sidebar hidden-xs">
+    <div class="col-sm-3 sidebar hidden-xs">
       <!-- Console Log -->
       <div class="console">
         <table class="table">

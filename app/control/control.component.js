@@ -6,6 +6,7 @@ class ControlController {
     this.$http = $http;
     this.$timeout = $timeout;
     this.Domains = Domains;
+    this.activeMode = 'stop';
 
     // hardcoded list of shown topics
     this.DomainsToShow = ['app', 'manual_control', 'model_car', 'odom', 'usb_cam', 'scan'];
@@ -24,6 +25,14 @@ class ControlController {
     if (isConnected) {
       this.onConnected();
     }
+  }
+
+  setActiveMode(mode) {
+    this.activeMode = mode;
+  }
+
+  otherModeActive() {
+    return this.activeMode !== 'stop';
   }
 
   // The active domain shows further information in the center view
@@ -189,17 +198,14 @@ class ControlController {
     });
   }
 
-  runBash() {
-    const postConfig = {
-      url: '/api/killros',
-      method: 'POST',
-      data: 'killros',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+  sendToApi(command, dataJson = '') {
+    const config = {
+      url: `/api/${command}`,
+      data: dataJson,
+      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
     };
-    this.$http.post(postConfig.url, postConfig.data, postConfig.headers);
-    // .success((data) => {
-    //  angular.log.info(data);
-    // });
+    this.$http.post(config.url, config.data, config.headers);
+    this.setActiveMode(command);
   }
 }
 
