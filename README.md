@@ -2,7 +2,7 @@
 
 based on the ROS Control Center: https://github.com/pantor/ros-control-center
 
-![screenshot](https://raw.githubusercontent.com/pantor/ros-control-center/master/assets/images/screenshot.png)
+![screenshot](https://github.com/AutoModelCar/web-control-center/raw/master/assets/images/screenshot.png)
 
 ## Installation
 
