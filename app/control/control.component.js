@@ -9,7 +9,8 @@ class ControlController {
     this.activeMode = 'stop';
 
     // hardcoded list of shown topics
-    this.DomainsToShow = ['app', 'manual_control', 'model_car', 'odom', 'usb_cam', 'scan'];
+    this.DomainsToShow = ['app', 'manual_control', 'model_car', 'odom',
+      'usb_cam', 'scan', 'simple_drive_control', 'simple_parking_maneuver'];
 
     this.isConnected = isConnected;
     this.setting = Settings.get();
