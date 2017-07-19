@@ -32,17 +32,37 @@ const runBash = new RunBash();
 function stopAll () {
   runBash.run('pkill -f random_movement');
   runBash.run('pkill -f manual_control');
+  runBash.run('pkill -f simple_drive_control');
+  runBash.run('pkill -f simple_parking_maneuver');
 }
 
 /* RESTful API for executing bash commands */
 app.post('/api/randommovement', function (req, res) {
   stopAll();
-  runBash.run('roslaunch random_movement auto.launch');
+  setTimeout(function(){
+    runBash.run('roslaunch random_movement auto.launch');
+  }, 1000); 
 });
 
 app.post('/api/manualcontrol', function (req, res) {  
   stopAll();
-  runBash.run('roslaunch manual_control manual_odroid.launch');
+  setTimeout(function(){
+    runBash.run('roslaunch manual_control manual_odroid.launch');
+  }, 1000); 
+});
+
+app.post('/api/simpledriving', function (req, res) {  
+  stopAll();
+  setTimeout(function(){
+    runBash.run('roslaunch simple_drive_control simple_drive_control.launch');
+  }, 1000);
+});
+
+app.post('/api/simpleparking', function (req, res) {  
+  stopAll();
+  setTimeout(function(){ 
+    runBash.run('roslaunch simple_parking_maneuver simple_parking_maneuver.launch');
+  }, 1000); 
 });
 
 app.post('/api/stop', function (req, res) {  

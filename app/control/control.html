@@ -32,8 +32,26 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-1" ng-if="$ctrl.activeMode == 'manualcontrol'">
-          <button type="button" class="btn btn-danger" 
+        <div class="col-sm-1">
+          <button type="button" class="btn btn-danger"
+                  ng-if="$ctrl.activeMode == 'manualcontrol'"
+                  ng-click="$ctrl.sendToApi('stop')">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+        </div>
+        <div class="col-sm-3">
+          <div class="panel panel-info" 
+               ng-class="{ 'panel-active': $ctrl.activeMode == 'simpledriving', 'panel-domain': !$ctrl.otherModeActive() }" 
+               ng-disabled="$ctrl.otherModeActive()"
+               ng-click="$ctrl.otherModeActive() || $ctrl.sendToApi('simpledriving')">
+            <div class="panel-heading">
+              <h3 class="panel-title">Simple Driving</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-1">
+          <button type="button" class="btn btn-danger"
+                  ng-if="$ctrl.activeMode == 'simpledriving'"
                   ng-click="$ctrl.sendToApi('stop')">
             <span class="glyphicon glyphicon-remove"></span>
           </button>
@@ -53,8 +71,26 @@
             </div>
           </div>
         </div>
-        <div class="col-sm-1" ng-if="$ctrl.activeMode == 'randommovement'">
-          <button type="button" class="btn btn-danger" 
+        <div class="col-sm-1">
+          <button type="button" class="btn btn-danger"
+                  ng-if="$ctrl.activeMode == 'randommovement'"
+                  ng-click="$ctrl.sendToApi('stop')">
+            <span class="glyphicon glyphicon-remove"></span>
+          </button>
+        </div>
+        <div class="col-sm-3">
+          <div class="panel panel-info" 
+               ng-class="{ 'panel-active': $ctrl.activeMode == 'simpleparking', 'panel-domain': !$ctrl.otherModeActive() }" 
+               ng-disabled="$ctrl.otherModeActive()"
+               ng-click="$ctrl.otherModeActive() || $ctrl.sendToApi('simpleparking')">
+            <div class="panel-heading">
+              <h3 class="panel-title">Simple Parking</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-1">
+          <button type="button" class="btn btn-danger"
+                  ng-if="$ctrl.activeMode == 'simpleparking'"
                   ng-click="$ctrl.sendToApi('stop')">
             <span class="glyphicon glyphicon-remove"></span>
           </button>
