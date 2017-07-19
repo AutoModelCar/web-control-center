@@ -12,7 +12,7 @@ based on the ROS Control Center: https://github.com/pantor/ros-control-center
     $ sudo apt-get install ros-kinetic-rosbridge-suite
     $ sudo apt-get install ros-kinetic-web-video-server
     ```
-2. Install NodeJS with NPM  
+2. Install NodeJS with NPM
   
     https://nodejs.org/en/download/
 
@@ -30,6 +30,12 @@ based on the ROS Control Center: https://github.com/pantor/ros-control-center
     $ rosrun web_video_server web_video_server &
     $ cd web-control-center
     $ npm start
+```
+
+Or to run everything together:
+
+```sh
+    $ ./start-server.sh
 ```
 
 ## Open the Web Control Center

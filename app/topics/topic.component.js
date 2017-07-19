@@ -53,6 +53,35 @@ class TopicController {
     const message = new ROSLIB.Message(data);
     this.roslibTopic.publish(message);
   }
+
+  loadLaserScan() {
+    /* eslint-disable no-new */
+
+    // Create the main viewer.
+    const viewer = new ROS3D.Viewer({
+      divID: 'viewer',
+      width: 640,
+      height: 480,
+      antialias: true,
+    });
+
+    // Setup a client to listen to TFs.
+    const tfClient = new ROSLIB.TFClient({
+      ros,
+      angularThres: 0.01,
+      transThres: 0.01,
+      rate: 10.0,
+      fixedFrame: '/laser',
+    });
+
+    new ROS3D.LaserScan({
+      ros,
+      tfClient,
+      rootObject: viewer.scene,
+      topic: '/scan',
+      color: 0x00BBFF,
+    });
+  }
 }
 
 angular.module('roscc').component('ccTopic', {

@@ -1,0 +1,67 @@
+<div class="panel panel-default" ng-class="{'panel-success': $ctrl.toggle}">
+  <div class="panel-heading clearfix">
+    <button class="btn btn-default btn-sm pull-right" ng-click="$ctrl.toggleSubscription(!$ctrl.toggle); $ctrl.loadLaserScan()" ng-model="$ctrl.toggle" uib-btn-checkbox>{{ $ctrl.toggle ? 'Unsubscribe' : 'Subscribe' }}</button>
+
+    <h3 class="panel-title">
+      {{ $ctrl.topic.abbr }}
+      <small style="font-size: 12px;">({{ $ctrl.topic.type }})</small>
+    </h3>
+  </div>
+  
+          <script>
+          		console.log('script!111');
+          </script>
+
+  <div class="panel-body" ng-if="$ctrl.toggle">
+    <div class="row">
+      <div class="col-sm-12">
+        <center>
+          <!-- <img class="img-responsive img-thumbnail" ng-src="http://{{ $ctrl.setting.address }}:{{ $ctrl.setting.imagePreview.port }}/stream?topic={{ $ctrl.topic.name }}&quality={{ $ctrl.setting.imagePreview.quality }}&width={{ $ctrl.setting.imagePreview.width }}&height={{ $ctrl.setting.imagePreview.height }}"> -->
+          
+          
+          <div id="viewer"></div>
+      <!--    
+          <script>
+          console.log('script!');
+		  function initLaser() {
+		    console.log('hallo');
+		  	alert('HI');
+			// Connect to ROS.
+			var ros = new ROSLIB.Ros({
+			  url : 'ws://localhost:9090'
+			});
+
+			// Create the main viewer.
+			var viewer = new ROS3D.Viewer({
+			  divID : 'viewer',
+			  width : 800,
+			  height : 600,
+			  antialias : true
+			});
+
+			// Setup a client to listen to TFs.
+			var tfClient = new ROSLIB.TFClient({
+			  ros : ros,
+			  angularThres : 0.01,
+			  transThres : 0.01,
+			  rate : 10.0,
+			  fixedFrame : '/base_laser_link'
+			});
+
+			var cloudClient = new ROS3D.LaserScan({
+				ros: ros,
+				tfClient: tfClient,
+				rootObject: viewer.scene,
+				topic: '/base_scan'
+			});
+		  }
+		  initLaser();
+		</script> -->
+		
+		
+          
+        </center>
+      </div>
+    </div>
+  </div>
+</div>

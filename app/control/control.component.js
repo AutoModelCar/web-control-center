@@ -126,18 +126,19 @@ class ControlController {
       messageType: 'rosgraph_msgs/Log',
     });
     consoleTopic.subscribe((message) => {
-      const nameArray = message.name.split('/');
-      const d = new Date((message.header.stamp.secs * 1E3) + (message.header.stamp.nsecs * 1E-6));
+      const msg = message;
+      const nameArray = msg.name.split('/');
+      const d = new Date((msg.header.stamp.secs * 1E3) + (msg.header.stamp.nsecs * 1E-6));
 
-      message.abbr = (nameArray.length > 1) ? nameArray[1] : message.name;
+      msg.abbr = (nameArray.length > 1) ? nameArray[1] : msg.name;
 
       // String formatting of message time and date
       function addZero(i) { return i < 10 ? `0${i}` : `${i}`; }
-      message.dateString = `${addZero(d.getHours())}:
+      msg.dateString = `${addZero(d.getHours())}:
       ${addZero(d.getMinutes())}:
       ${addZero(d.getSeconds())}.
       ${addZero(d.getMilliseconds())}`;
-      this.data.rosout.unshift(message);
+      this.data.rosout.unshift(msg);
 
       if (this.data.rosout.length > this.maxConsoleEntries) {
         this.data.rosout.pop();

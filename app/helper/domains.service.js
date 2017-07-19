@@ -37,10 +37,11 @@ class DomainsService {
   getGlobalParameters(array) {
     const result = [];
     angular.forEach(array, (entry) => {
-      const nameArray = entry.name.split('/');
+      const entr = entry;
+      const nameArray = entr.name.split('/');
       if (nameArray.length === 2) {
-        entry.abbr = _.last(nameArray);
-        result.push(entry);
+        entr.abbr = _.last(nameArray);
+        result.push(entr);
       }
     });
     return result;
@@ -49,14 +50,15 @@ class DomainsService {
   getDataForDomain(array, domainName, advanced) {
     const result = [];
     angular.forEach(array, (entry) => {
-      const nameArray = entry.name.split('/');
+      const entr = entry;
+      const nameArray = entr.name.split('/');
       if (
         nameArray.length > 1 &&
         nameArray[1] === domainName &&
-        this.filterAdvanced(entry.name, advanced)
+        this.filterAdvanced(entr.name, advanced)
       ) {
-        entry.abbr = nameArray.slice(2).join(' ');
-        result.push(entry);
+        entr.abbr = nameArray.slice(2).join(' ');
+        result.push(entr);
       }
     });
     return result;

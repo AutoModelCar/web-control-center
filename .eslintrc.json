@@ -5,7 +5,8 @@
   "globals": {
     "_": true,
     "ros": true,
-    "ROSLIB": true
+    "ROSLIB": true,
+    "ROS3D": true
   },
   "extends": [
     "airbnb/base",
