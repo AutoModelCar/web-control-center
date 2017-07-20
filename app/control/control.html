@@ -5,7 +5,7 @@
     The ROS Control Center is <b>not connected</b> to a robot running rosbridge_suite at {{ $ctrl.setting.address }}:{{ $ctrl.setting.port }}. You can change the URL in the <a href="#!/settings"><i>Settings</i></a> tab.
   </div>
 
-  <div class="alert alert-info col-sm-7 col-sm-offset-3" ng-if="$ctrl.isConnected && !$ctrl.hasFilteredDomains($ctrl.setting.advanced)">
+  <div class="alert alert-info col-sm-7 col-sm-offset-3" ng-if="$ctrl.isConnected && !$ctrl.hasFilteredDomains($ctrl.setting.advanced) && $ctrl.domainsEnabled">
     <p class="lead"><i class="glyphicon glyphicon glyphicon-th-list"></i> Loading or nothing to show...</p>
     In default mode, ROS Control Center does not show default nodes / parameters / services and topics. You can show every item by using the advanced view setting, either in the seperate settings tab or here:
     <center style="margin-top: 10px;">
@@ -13,7 +13,7 @@
     </center>
   </div>
 
-  <div class="row" ng-if="$ctrl.isConnected && $ctrl.hasFilteredDomains($ctrl.setting.advanced)">
+  <div class="row" ng-if="($ctrl.isConnected && $ctrl.hasFilteredDomains($ctrl.setting.advanced)) || !$ctrl.domainsEnabled">
     <div class="cols-xs-12 col-sm-8">
       <div class="row">
       
@@ -99,9 +99,10 @@
       
       <!-- Topics -->
       <div class="row" >
+        <h3 style="margin-left: 15px">Topics <button type="button" class="btn btn-default" ng-click="$ctrl.refresh()"><span class="glyphicon glyphicon-refresh"></span></button></h3>
         <!-- Sidebar menu -->
-        <div class="col-sm-3">
-          <h3>Topics</h3>
+        <div class="col-sm-3" ng-if="$ctrl.domainsEnabled">
+          
           <!-- Domains -->
           <div class="panel panel-default panel-domain" ng-class="{ 'panel-active': $ctrl.activeDomain == domain }" ng-repeat="domain in $ctrl.getDomains()" ng-if="$ctrl.Domains.filterAdvanced(domain, $ctrl.setting.advanced) && $ctrl.isDomainToShow(domain)" ng-click="$ctrl.setActiveDomain(domain)">
             <div class="panel-heading">
@@ -113,7 +114,7 @@
           <cc-parameter ng-repeat="parameter in $ctrl.getGlobalParameters()" ng-show="$ctrl.Domains.filterAdvanced(parameter.name, $ctrl.setting.advanced)" parameter="parameter"></cc-parameter>
         </div>
 
-        <div class="col-sm-9">
+        <div class="col-sm-9" ng-if="$ctrl.domainsEnabled">
           <div ng-repeat="domain in $ctrl.getDomains()" ng-show="$ctrl.activeDomain == domain" ng-if="$ctrl.isDomainToShow(domain)" >
             <p class="lead" style="font-size: 28px;">{{ domain }}</p>
 

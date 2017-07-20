@@ -2,11 +2,13 @@ let ros;
 let isConnected = false;
 
 class ControlController {
-  constructor($timeout, $interval, $http, Settings, Domains) {
+  constructor($route, $timeout, $interval, $http, Settings, Domains) {
+    this.$route = $route;
     this.$http = $http;
     this.$timeout = $timeout;
     this.Domains = Domains;
     this.activeMode = 'stop';
+    this.domainsEnabled = true;
 
     // hardcoded list of shown topics
     this.DomainsToShow = ['app', 'manual_control', 'model_car', 'odom',
@@ -20,7 +22,7 @@ class ControlController {
     this.newRosConnection();
     $interval(() => {
       this.newRosConnection();
-    }, 1000); // [ms]
+    }, 500); // [ms]
 
     this.resetData();
     if (isConnected) {
@@ -115,7 +117,7 @@ class ControlController {
       if (this.setting.battery) {
         this.setBattery();
       }
-    }, 1000); // [ms]
+    }, 500); // [ms]
   }
 
   // Setup of console (in the right sidebar)
@@ -208,6 +210,22 @@ class ControlController {
     };
     this.$http.post(config.url, config.data, config.headers);
     this.setActiveMode(command);
+  }
+
+  refresh() {
+    // this.$route.reload();    // will reload the whole controller
+
+    this.domainsEnabled = false;
+
+    this.loadData();
+    this.setConsole();
+    if (this.setting.battery) {
+      this.setBattery();
+    }
+
+    this.$timeout(() => {
+      this.domainsEnabled = true;
+    }, 500); // [ms]
   }
 }
 

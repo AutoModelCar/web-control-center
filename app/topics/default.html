@@ -13,7 +13,7 @@
       <div class="col-xs-12">
         <button class="btn btn-default pull-right" type="button" ng-disabled="$ctrl.isSubscribing" style="margin-left: 10px;" ng-click="$ctrl.publishMessage($ctrl.message, true)">Publish</button>
         <div class="input-group">
-          <input type="text" class="form-control" ng-model="$ctrl.message" ng-readonly="$ctrl.isSubscribing" placeholder="JSON">
+          <input type="text" class="form-control" ng-model="$ctrl.message" ng-readonly="$ctrl.isSubscribing" placeholder="JSON: {&quot;data&quot;: value}">
           <span class="input-group-addon"></span>
         </div>
       </div>
