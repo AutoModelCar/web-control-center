@@ -6,11 +6,12 @@ based on the ROS Control Center: https://github.com/pantor/ros-control-center
 
 ## Installation
 
-1. Install RosbridgeSuite package and WebVideoServer
+1. Install needed ROS dependencies
 
     ```sh
     $ sudo apt-get install ros-kinetic-rosbridge-suite
     $ sudo apt-get install ros-kinetic-web-video-server
+    $ sudo apt-get install ros-kinetic-tf2-web-republisher
     ```
 2. Install NodeJS with NPM
   

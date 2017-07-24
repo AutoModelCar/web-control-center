@@ -219,13 +219,12 @@ var ControlController = function () {
 
       ros.getTopics(function (topics) {
         // Topics now has topics and types arrays
-        angular.forEach(topics.topics, function (name) {
-          _this7.data.topics.push({ name: name });
-
-          ros.getTopicType(name, function (type) {
-            _.findWhere(_this7.data.topics, { name: name }).type = type;
-          });
-        });
+        for (var i = 0; i < topics.topics.length; i += 1) {
+          var topic = {};
+          topic.name = topics.topics[i];
+          topic.type = topics.types[i];
+          _this7.data.topics.push(topic);
+        }
       });
 
       ros.getServices(function (services) {
@@ -295,33 +294,6 @@ var ControlController = function () {
 angular.module('roscc').component('ccControl', {
   templateUrl: 'app/control/control.html',
   controller: ControlController
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var NavbarController = function () {
-  function NavbarController($location) {
-    _classCallCheck(this, NavbarController);
-
-    this.$location = $location;
-  }
-
-  _createClass(NavbarController, [{
-    key: 'isPath',
-    value: function isPath(path) {
-      return this.$location.path() === path;
-    }
-  }]);
-
-  return NavbarController;
-}();
-
-angular.module('roscc').component('ccNavbar', {
-  templateUrl: 'app/navbar/navbar.html',
-  controller: NavbarController
 });
 'use strict';
 
@@ -458,6 +430,33 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+var NavbarController = function () {
+  function NavbarController($location) {
+    _classCallCheck(this, NavbarController);
+
+    this.$location = $location;
+  }
+
+  _createClass(NavbarController, [{
+    key: 'isPath',
+    value: function isPath(path) {
+      return this.$location.path() === path;
+    }
+  }]);
+
+  return NavbarController;
+}();
+
+angular.module('roscc').component('ccNavbar', {
+  templateUrl: 'app/navbar/navbar.html',
+  controller: NavbarController
+});
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 var ParameterController = function () {
   function ParameterController() {
     _classCallCheck(this, ParameterController);
@@ -544,117 +543,6 @@ angular.module('roscc').component('ccService', {
   bindings: { service: '=' },
   template: '<ng-include src="$ctrl.fileName"></ng-include>',
   controller: ServiceController
-});
-'use strict';
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var TopicController = function () {
-  function TopicController($scope, $http, Settings, Quaternions) {
-    _classCallCheck(this, TopicController);
-
-    this.$scope = $scope;
-    this.$http = $http;
-    this.setting = Settings.get();
-    this.Quaternions = Quaternions;
-
-    this.isSubscribing = false;
-  }
-
-  _createClass(TopicController, [{
-    key: '$onInit',
-    value: function $onInit() {
-      var _this = this;
-
-      this.roslibTopic = new ROSLIB.Topic({
-        ros: ros,
-        name: this.topic.name,
-        messageType: this.topic.type
-      });
-
-      var path = 'app/topics/';
-      this.fileName = path + 'default.html';
-      this.isDefault = true;
-
-      // Check if file exists
-      this.$scope.$watch('topic.type', function () {
-        if (!_this.topic.type) {
-          return;
-        }
-        var fileName = '' + path + _this.topic.type + '.html';
-        _this.$http.get(fileName).then(function (result) {
-          if (result.data) {
-            _this.fileName = fileName;
-            _this.isDefault = false;
-          }
-        });
-      });
-    }
-  }, {
-    key: 'toggleSubscription',
-    value: function toggleSubscription(data) {
-      var _this2 = this;
-
-      if (!data) {
-        this.roslibTopic.subscribe(function (message) {
-          _this2.message = message;
-          if (_this2.isDefault) {
-            _this2.message = angular.toJson(message);
-          }
-        });
-      } else {
-        this.roslibTopic.unsubscribe();
-      }
-      this.isSubscribing = !data;
-    }
-  }, {
-    key: 'publishMessage',
-    value: function publishMessage(input, isJSON) {
-      var data = isJSON ? angular.fromJson(input) : input;
-      var message = new ROSLIB.Message(data);
-      this.roslibTopic.publish(message);
-    }
-  }, {
-    key: 'loadLaserScan',
-    value: function loadLaserScan() {
-      /* eslint-disable no-new */
-
-      // Create the main viewer.
-      var viewer = new ROS3D.Viewer({
-        divID: 'viewer',
-        width: 640,
-        height: 480,
-        antialias: true
-      });
-
-      // Setup a client to listen to TFs.
-      var tfClient = new ROSLIB.TFClient({
-        ros: ros,
-        angularThres: 0.01,
-        transThres: 0.01,
-        rate: 10.0,
-        fixedFrame: '/laser'
-      });
-
-      new ROS3D.LaserScan({
-        ros: ros,
-        tfClient: tfClient,
-        rootObject: viewer.scene,
-        topic: '/scan',
-        color: 0x00BBFF
-      });
-    }
-  }]);
-
-  return TopicController;
-}();
-
-angular.module('roscc').component('ccTopic', {
-  bindings: { topic: '=' },
-  template: '<ng-include src="$ctrl.fileName"></ng-include>',
-  controller: TopicController
 });
 'use strict';
 
@@ -794,3 +682,111 @@ var SettingsService = function () {
 }();
 
 angular.module('roscc').service('Settings', SettingsService);
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var TopicController = function () {
+  function TopicController($scope, $http, Settings, Quaternions) {
+    _classCallCheck(this, TopicController);
+
+    this.$scope = $scope;
+    this.$http = $http;
+    this.setting = Settings.get();
+    this.Quaternions = Quaternions;
+
+    this.isSubscribing = false;
+  }
+
+  _createClass(TopicController, [{
+    key: '$onInit',
+    value: function $onInit() {
+      var _this = this;
+
+      this.roslibTopic = new ROSLIB.Topic({
+        ros: ros,
+        name: this.topic.name,
+        messageType: this.topic.type
+      });
+
+      var path = 'app/topics/';
+      this.isDefault = true;
+
+      // Check if file exists
+      var fileName = '' + path + this.topic.type + '.html';
+      this.$http.get(fileName).then(function (result) {
+        if (result.data) {
+          _this.fileName = fileName;
+          _this.isDefault = false;
+        }
+      });
+      if (!this.fileName) {
+        this.fileName = path + 'default.html';
+      }
+    }
+  }, {
+    key: 'toggleSubscription',
+    value: function toggleSubscription(data) {
+      var _this2 = this;
+
+      if (!data) {
+        this.roslibTopic.subscribe(function (message) {
+          _this2.message = message;
+          if (_this2.isDefault) {
+            _this2.message = angular.toJson(message);
+          }
+        });
+      } else {
+        this.roslibTopic.unsubscribe();
+      }
+      this.isSubscribing = !data;
+    }
+  }, {
+    key: 'publishMessage',
+    value: function publishMessage(input, isJSON) {
+      var data = isJSON ? angular.fromJson(input) : input;
+      var message = new ROSLIB.Message(data);
+      this.roslibTopic.publish(message);
+    }
+  }, {
+    key: 'loadLaserScan',
+    value: function loadLaserScan() {
+      /* eslint-disable no-new */
+
+      // Create the main viewer.
+      var viewer = new ROS3D.Viewer({
+        divID: 'viewer',
+        width: 640,
+        height: 480,
+        antialias: true
+      });
+
+      // Setup a client to listen to TFs.
+      var tfClient = new ROSLIB.TFClient({
+        ros: ros,
+        angularThres: 0.01,
+        transThres: 0.01,
+        rate: 10.0,
+        fixedFrame: '/laser'
+      });
+
+      new ROS3D.LaserScan({
+        ros: ros,
+        tfClient: tfClient,
+        rootObject: viewer.scene,
+        topic: '/scan',
+        color: 0x00BBFF
+      });
+    }
+  }]);
+
+  return TopicController;
+}();
+
+angular.module('roscc').component('ccTopic', {
+  bindings: { topic: '=' },
+  template: '<ng-include src="$ctrl.fileName"></ng-include>',
+  controller: TopicController
+});

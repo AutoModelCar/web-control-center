@@ -165,13 +165,12 @@ class ControlController {
     this.resetData();
 
     ros.getTopics((topics) => { // Topics now has topics and types arrays
-      angular.forEach(topics.topics, (name) => {
-        this.data.topics.push({ name });
-
-        ros.getTopicType(name, (type) => {
-          _.findWhere(this.data.topics, { name }).type = type;
-        });
-      });
+      for (let i = 0; i < topics.topics.length; i += 1) {
+        const topic = {};
+        topic.name = topics.topics[i];
+        topic.type = topics.types[i];
+        this.data.topics.push(topic);
+      }
     });
 
     ros.getServices((services) => {

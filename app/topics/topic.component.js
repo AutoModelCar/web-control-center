@@ -16,22 +16,19 @@ class TopicController {
     });
 
     const path = 'app/topics/';
-    this.fileName = `${path}default.html`;
     this.isDefault = true;
 
     // Check if file exists
-    this.$scope.$watch('topic.type', () => {
-      if (!this.topic.type) {
-        return;
+    const fileName = `${path}${this.topic.type}.html`;
+    this.$http.get(fileName).then((result) => {
+      if (result.data) {
+        this.fileName = fileName;
+        this.isDefault = false;
       }
-      const fileName = `${path}${this.topic.type}.html`;
-      this.$http.get(fileName).then((result) => {
-        if (result.data) {
-          this.fileName = fileName;
-          this.isDefault = false;
-        }
-      });
     });
+    if (!this.fileName) {
+      this.fileName = `${path}default.html`;
+    }
   }
 
   toggleSubscription(data) {
@@ -89,3 +86,4 @@ angular.module('roscc').component('ccTopic', {
   template: '<ng-include src="$ctrl.fileName"></ng-include>',
   controller: TopicController,
 });
+
