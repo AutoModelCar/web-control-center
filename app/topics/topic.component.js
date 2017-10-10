@@ -59,6 +59,7 @@ class TopicController {
       divID: 'viewer',
       width: 640,
       height: 480,
+      background: '#444444',
       antialias: true,
     });
 
@@ -76,7 +77,7 @@ class TopicController {
       tfClient,
       rootObject: viewer.scene,
       topic: '/scan',
-      color: 0x00BBFF,
+      color: 0x0077FF,
     });
   }
 }
