@@ -12,7 +12,7 @@
     "url": "https://github.com/AutoModelCar/web-control-center/issues"
   },
   "dependencies": {
-    "angular": "1.6.4",
+    "angular": "1.8.0",
     "angular-local-storage": "0.6.0",
     "angular-route": "1.6.4",
     "angular-ui-bootstrap": "2.5.0",
